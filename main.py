@@ -89,15 +89,23 @@ def run_daily_report():
 
     # 7️⃣ 텔레그램 발송
     print("📤 텔레그램 발송 중...\n")
-    ok = send_telegram_text(f"📡 *UAM 일일 리포트 — {today}*\n\n" + report, parse_mode="Markdown")
-
-    if ok:
-        print("✅ 텔레그램 발송 완료")
-    else:
-        print("⚠️ 텔레그램 발송 실패")
-
+    # 텔레그램 메시지 제한은 4096자입니다. 안전하게 4000자씩 자릅니다.
+    max_length = 4000
+    
+    # 메시지가 길 경우 나누어 보냅니다.
+    for i in range(0, len(full_text), max_length):
+        chunk = full_text[i:i + max_length]
+        
+        # parse_mode를 제거하여 특수문자 에러 방지 (Markdown -> None)
+        # 첫 번째 메시지에만 제목이 포함되므로 그대로 전송
+        ok = send_telegram_text(chunk, parse_mode=None) 
+        
+        if ok:
+            print(f"   - 메시지 청크 {i//max_length + 1} 전송 성공")
+        else:
+            print(f"   - ⚠️ 메시지 청크 {i//max_length + 1} 전송 실패")
+            
     print("\n🎯 프로세스 완료!")
-
 
 if __name__ == "__main__":
     run_daily_report()
