@@ -10,7 +10,7 @@ def analyze_daily(data):
     """
     수집된 데이터를 바탕으로 Gemini를 이용해 리포트를 생성합니다.
     """
-    model = genai.GenerativeModel('gemini-1.5-flash') # 또는 gemini-1.5-pro
+    model = genai.GenerativeModel('gemini-2.5-flash') # 또는 gemini-1.5-pro
 
     # 데이터 언패킹 (없는 키는 빈 딕셔너리/리스트 처리)
     news = data.get("news", [])
