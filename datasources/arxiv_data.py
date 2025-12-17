@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 def fetch_arxiv_updates(max_results=5):
     """arXiv에서 UAM/eVTOL 관련 최신 논문 검색"""
     url = f"https://export.arxiv.org/api/query?search_query=all:(UAM+OR+eVTOL+OR+'air+mobility')&sortBy=submittedDate&sortOrder=descending&max_results={max_results}"
-    r = requests.get(url, timeout=10)
+    r = requests.get(url, timeout=30)
     soup = BeautifulSoup(r.text, "xml")
     entries = soup.find_all("entry")
     results = []
